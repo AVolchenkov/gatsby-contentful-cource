@@ -1,12 +1,11 @@
 import * as React from "react"
-import Header from "../components/Header"
+import Layout from "../components/Layout/index"
 
 const Index = () => {
   return (
-      <div>
-          <Header />
+      <Layout>
           <h1>Gatsby &amp; Contentful</h1>
-      </div>
+      </Layout>
   );
 };
 
