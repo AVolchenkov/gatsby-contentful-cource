@@ -15,10 +15,12 @@
     "clean": "gatsby clean"
   },
   "dependencies": {
+    "@contentful/rich-text-react-renderer": "^15.12.1",
+    "@contentful/rich-text-types": "^15.14.1",
     "@mdx-js/react": "^2.1.5",
     "gatsby": "^5.0.0",
     "gatsby-plugin-google-analytics": "^5.1.0",
-    "gatsby-plugin-image": "^3.1.0",
+    "gatsby-plugin-image": "^1.6.0",
     "gatsby-plugin-manifest": "^5.1.0",
     "gatsby-plugin-mdx": "^5.1.0",
     "gatsby-plugin-sass": "^6.1.0",
@@ -27,8 +29,11 @@
     "gatsby-source-contentful": "^8.1.0",
     "gatsby-source-filesystem": "^5.1.0",
     "gatsby-transformer-sharp": "^5.1.0",
+    "react-helmet": "^6.1.0",
+    "gbimage-bridge": "^0.2.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "sass": "^1.56.1"
+    "sass": "^1.56.1",
+    "styled-components": "^5.2.1"
   }
 }
