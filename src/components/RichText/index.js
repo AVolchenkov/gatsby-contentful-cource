@@ -8,15 +8,19 @@ import { Wrapper, ImageWrapper } from "./style";
 
 export const RichText = ({raw, references = []}) => {
   const referencesMap = {};
+
   references.forEach(reference => {
     referencesMap[reference.contentful_id] = reference
+    console.log("reference", reference);
   });
+
 
   const options = {
     renderNode: {
       [BLOCKS.EMBEDDED_ASSET]: (node) => {
         console.log("node", node);
         const data = referencesMap[node.data.target.sys.id];
+        console.log("data", data);
         return (
           <ImageWrapper>
             <GatsbyImage alt={data.title} image={data.gatsbyImageData}/>

@@ -2,11 +2,13 @@ import React from "react";
 import { graphql } from "gatsby";
 import Layout from "../components/Layout/index"
 import { RichText } from "../components/RichText";
+import { SEO } from "../components/SEO";
 
 export default function ContentfulPages (props) {
   console.log("props",props);
   return (
     <Layout>
+      <SEO title={props.data.contentfulPage.title} description={props.data.contentfulPage.description}/>
       <h1>{props.data.contentfulPage.title}</h1>
       {!!props.data.contentfulPage.pageContent &&
         <RichText references={props.data.contentfulPage.pageContent.references} raw={props.data.contentfulPage.pageContent.raw}/>
@@ -20,6 +22,7 @@ export const query = graphql `
     contentfulPage(id: {eq: $id}) {
       id
       title
+      description
       pageContent {
         raw
         references {
