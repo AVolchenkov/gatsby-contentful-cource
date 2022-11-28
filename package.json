@@ -20,6 +20,7 @@
     "@mdx-js/react": "^2.1.5",
     "gatsby": "^5.0.0",
     "gatsby-plugin-google-analytics": "^5.1.0",
+    "gatsby-background-image": "^1.5.0",
     "gatsby-plugin-image": "^1.6.0",
     "gatsby-plugin-manifest": "^5.1.0",
     "gatsby-plugin-mdx": "^5.1.0",
