@@ -3,6 +3,7 @@ import { graphql } from "gatsby";
 import Layout from "../../components/Layout";
 import { RichText } from "../../components/RichText";
 import { SEO } from "../../components/SEO";
+import { ImageWrapper, PriceBox, ShopifyProductItem, ShopifyProductItemTitle, Wrapper } from "./style";
 
 const BlogPost = (props) => {
   console.log("propsBlog",props);
@@ -10,14 +11,35 @@ const BlogPost = (props) => {
     <Layout>
       <SEO title={props.data.contentfulBlogPost.title} description={props.data.contentfulBlogPost.description}/>
       <RichText references={props.data.contentfulBlogPost.pageContent.references} raw={props.data.contentfulBlogPost.pageContent.raw} />
+      {!!props.data.allShopifyProduct.nodes.length &&
+        <>
+          <ShopifyProductItemTitle>{props.data.contentfulBlogPost.shopifyProductSectionTitle}</ShopifyProductItemTitle>
+          <Wrapper>
+            {props.data.allShopifyProduct.nodes.map(product => (
+              <ShopifyProductItem key={product.id}>
+                <ImageWrapper>
+                  <img alt={product.featuredImage.altText ? product.featuredImage.altText : "Image description"} src={product.featuredImage.src}/>
+                </ImageWrapper>
+                <div>{product.title}</div>
+                <PriceBox>
+                  <ins>${product.variants[0].price}</ins>
+                  <del>${product.variants[0].compareAtPrice}</del>
+                </PriceBox>
+              </ShopifyProductItem>
+            ))}
+          </Wrapper>
+        </>
+      }
     </Layout>
   );
 };
 
 export const query = graphql`
-    query BlogPostQuery($postId: String) {
+    query BlogPostQuery($postId: String, $tagName: String) {
         contentfulBlogPost(contentful_id: { eq: $postId }) {
             publishDate(formatString: "DD MMM YYYY")
+            shopifyProductTag
+            shopifyProductSectionTitle
             pageContent {
                 raw
                 references {
@@ -31,6 +53,20 @@ export const query = graphql`
             title
             contentful_id
             slug
+        }
+        allShopifyProduct(filter: {tags: {eq: $tagName}}) {
+          nodes {
+            id
+            title
+            variants {
+              price
+              compareAtPrice
+            }
+            featuredImage {
+              src
+              altText
+            }
+          }
         }
     }
 `;

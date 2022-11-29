@@ -29,7 +29,14 @@ module.exports = {
       "path": "./src/images/"
     },
     __key: "images"
-  }, {
+  },
+  {
+    resolve: "gatsby-source-shopify",
+    options: {
+      password: "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",
+      storeUrl: "access-dev-volchenkov.myshopify.com"
+    },
+  }, "gatsby-plugin-image",{
     resolve: 'gatsby-source-filesystem',
     options: {
       "name": "pages",
