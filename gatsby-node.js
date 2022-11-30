@@ -10,7 +10,7 @@ exports.onCreateWebpackConfig = ({ actions }) => {
 
 exports.createPages = async ({ actions, graphql }) => {
   const { createPage } = actions;
-  const {data: { contentfulBlog, allContentfulBlogPost, shopifyProductByTag },} = await graphql(`
+  const {data: { contentfulBlog, allContentfulBlogPost, allShopifyProduct, contentfulProduct },} = await graphql(`
     {
       contentfulBlog {
         postsPerPage
@@ -32,6 +32,24 @@ exports.createPages = async ({ actions, graphql }) => {
           }
         }
       }
+      contentfulProduct {
+        slug
+      }
+      allShopifyProduct {
+        nodes {
+          id
+          title
+          handle
+          variants {
+            price
+            compareAtPrice
+          }
+          featuredImage {
+            src
+            altText
+          }
+        }
+      }
     }
   `);
 
@@ -48,6 +66,18 @@ exports.createPages = async ({ actions, graphql }) => {
     });
   });
 
+  allShopifyProduct.nodes.forEach((product) => {
+    console.log("product", product);
+  
+      createPage({
+        path: `${contentfulProduct.slug}/${product.handle}`,
+        context: {
+          handle: product.handle
+        },
+        component: path.resolve("./src/pages/product.js"),
+      });
+    });
+
   const numPages = Math.ceil(allContentfulBlogPost.edges.length / contentfulBlog.postsPerPage)
   for (let i = 0; i < numPages; i++) {
     console.log("allContentfulBlogPost", allContentfulBlogPost);
@@ -60,7 +90,6 @@ exports.createPages = async ({ actions, graphql }) => {
         blogSlug: contentfulBlog.slug,
         totalPages: numPages,
         currentPage: i + 1,
-        shopifyProductsByTag: shopifyProductByTag,
         posts: allContentfulBlogPost.edges
           .map((blogPost) => blogPost.node)
           .slice(

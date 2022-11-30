@@ -1,5 +1,5 @@
 import React from "react";
-import { graphql } from "gatsby";
+import { graphql, Link } from "gatsby";
 import Layout from "../../components/Layout";
 import { RichText } from "../../components/RichText";
 import { SEO } from "../../components/SEO";
@@ -17,14 +17,16 @@ const BlogPost = (props) => {
           <Wrapper>
             {props.data.allShopifyProduct.nodes.map(product => (
               <ShopifyProductItem key={product.id}>
-                <ImageWrapper>
-                  <img alt={product.featuredImage.altText ? product.featuredImage.altText : "Image description"} src={product.featuredImage.src}/>
-                </ImageWrapper>
-                <div>{product.title}</div>
-                <PriceBox>
-                  <ins>${product.variants[0].price}</ins>
-                  <del>${product.variants[0].compareAtPrice}</del>
-                </PriceBox>
+                <Link to={`/product/${product.handle}`} style={{color: "#000"}}>
+                  <ImageWrapper>
+                    <img alt={product.featuredImage.altText ? product.featuredImage.altText : "Image description"} src={product.featuredImage.src}/>
+                  </ImageWrapper>
+                  <div>{product.title}</div>
+                  <PriceBox>
+                    <ins>${product.variants[0].price}</ins>
+                    <del>${product.variants[0].compareAtPrice}</del>
+                  </PriceBox>
+                </Link>
               </ShopifyProductItem>
             ))}
           </Wrapper>
@@ -58,6 +60,7 @@ export const query = graphql`
           nodes {
             id
             title
+            handle
             variants {
               price
               compareAtPrice
